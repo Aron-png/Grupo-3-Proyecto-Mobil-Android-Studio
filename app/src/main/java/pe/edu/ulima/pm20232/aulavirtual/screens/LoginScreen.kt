@@ -44,7 +44,7 @@ fun TopScreen(){
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Orange400)
+                .background(if (isSystemInDarkTheme()) Color.Black else Gray1200)
                 .weight(3f)
                 .padding(8.dp),
             contentAlignment = Alignment.TopCenter
@@ -61,17 +61,17 @@ fun TopScreen(){
                 Image(
                     painter = painterResource(id = R.drawable.ic_ulima), // Replace with your SVG resource ID
                     contentDescription = "Universidad de Lima",
-                    modifier = Modifier.size(120.dp),
-                    colorFilter = ColorFilter.tint(White400),
+                    modifier = Modifier.size(105.dp),
+                    colorFilter = ColorFilter.tint(if(isSystemInDarkTheme()) Color.White else Orange400)
                 )
                 Text1(
-                    text = "Gimnasio UL",
+                    text = "Gimnasio ULima",
                     textAlign = TextAlign.Center,
-                    color = Color.White,
+                    color = if(isSystemInDarkTheme()) Color.White else Color.Black,
                     //fontSize = 40.sp,
-                    modifier =  Modifier.padding(top = 20.dp, bottom = 20.dp),
-                        style = MaterialTheme.typography.h4.copy(
-                        fontSize = 40.sp,
+                    modifier =  Modifier.padding(top = 5.dp, bottom = 20.dp),
+                    style = MaterialTheme.typography.h4.copy(
+                        fontSize = 25.sp,
                         fontFamily = FontFamily(Font(R.font.caslon_classico_sc_regular)),
                         color = if (isSystemInDarkTheme()) White400 else Orange400 // Apply the custom text color here
                     )
@@ -93,11 +93,12 @@ fun LoginForm(
 ){
     var termsDisabled = true
 
-    Box( // caja gris (light)
+    Box(
+        // caja gris (light)
         modifier = Modifier
             .fillMaxSize()
             .padding(top = (screenHeightDp * 0.30).dp,)
-            .background(Gray1200),
+            .background(if (isSystemInDarkTheme()) Color.Black else Gray1200),
     ) {
         Box(modifier = Modifier.padding(
             start = (screenWidthDp * 0.125).dp,
@@ -109,20 +110,16 @@ fun LoginForm(
                         (screenWidthDp * 0.75).dp,
                         (screenHeightDp * 0.45).dp
                     ) // Adjust the size as needed
-                    //.border(1.dp, Gray800)
-                    .background(White400)
-                    .shadow(
-                        elevation = 5.dp,
-                        shape = MaterialTheme.shapes.medium,
-                        //color = Color.Gray
-                    )
+                    .border(1.dp, Gray800)
+                    .background(if (isSystemInDarkTheme()) Gray1200 else White400)
+
                     .padding(start = 20.dp, top = 30.dp, bottom = 20.dp, end = 20.dp),
             ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
-                    Text1(text ="Bienvenido al Sistema", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text1(text ="INGRESA ESTA INFORMACION", fontSize = 15.sp,color = Color.DarkGray)
                     TextFieldWithLeadingIcon(
                         leadingIcon = Icons.Default.Person, // Replace with your desired icon
                         placeholder = "Usuario",
@@ -144,14 +141,36 @@ fun LoginForm(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 25.dp),
+                            .padding(top = 2.dp),
                         horizontalArrangement = Arrangement.Center,
                     ){
-                        ButtonWithIcon("INGRESAR", Icons.Default.Person, {
+                        ButtonWithIcon("LOGIN", Icons.Default.Person, {
                             viewModel.access(navController)
                         })
                     }
-                    CheckboxWithLabel(
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
+                    ) {
+
+                        Text1(text = "No tienes una cuenta? ", textAlign = TextAlign.End, color = Gray800, fontSize = 16.sp)
+                        Text1(
+                            text = "Creala aquí",
+                            textAlign = TextAlign.End,
+                            color = Orange400,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable {
+                                println("Crear_Cuenta")
+                                navController.navigate("register")
+                            },
+
+                            )
+                    }
+
+                    /*CheckboxWithLabel(
                         label = "Términos y Condiciones",
                         isChecked = viewModel.termsAndConditionsChecked,
                         onCheckedChange = {
@@ -172,7 +191,7 @@ fun LoginForm(
                             }
                         },
                         disabled = termsDisabled,
-                    )
+                    )*/
                 }
             }
         }
@@ -184,10 +203,16 @@ fun LoginForm(
 fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState: BottomSheetScaffoldState){
     val coroutineScope = rememberCoroutineScope()
     Box(
-        Modifier.fillMaxWidth().height(500.dp).background(Color.White).padding(top = 20.dp)
+        Modifier
+            .fillMaxWidth()
+            .height(500.dp)
+            .background(Color.White)
+            .padding(top = 20.dp)
     ){
         Column(
-            Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
@@ -198,7 +223,10 @@ fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState
         }
     }
     Box(
-        Modifier.fillMaxWidth().height(87.dp).background(Gray1200)
+        Modifier
+            .fillMaxWidth()
+            .height(87.dp)
+            .background(Gray1200)
     ){
         Row(
             modifier = Modifier
@@ -208,7 +236,8 @@ fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState
         ){
             Box(
                 modifier = Modifier
-                    .weight(1f).padding(start = 5.dp, end = 5.dp) // Equal weight for the first part
+                    .weight(1f)
+                    .padding(start = 5.dp, end = 5.dp) // Equal weight for the first part
             ) {
                 ButtonWithIcon(
                     text = "Acepto", icon = Icons.Default.Check, onClick  = {
@@ -217,11 +246,14 @@ fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState
                             viewModel.termsAndConditionsChecked = true
                             bottomSheetScaffoldState.bottomSheetState.collapse()
                         }
-                    }, modifier = Modifier.height(55.dp).fillMaxWidth(), backgroundColor = Gray800)
+                    }, modifier = Modifier
+                        .height(55.dp)
+                        .fillMaxWidth(), backgroundColor = Gray800)
             }
             Box(
                 modifier = Modifier
-                    .weight(1f).padding(start = 5.dp, end = 5.dp) // Equal weight for the second part
+                    .weight(1f)
+                    .padding(start = 5.dp, end = 5.dp) // Equal weight for the second part
             ) {
                 ButtonWithIcon("No Acpeto", Icons.Default.Delete, onClick = {
                     coroutineScope.launch {
@@ -229,7 +261,9 @@ fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState
                         viewModel.termsAndConditionsChecked = false
                         bottomSheetScaffoldState.bottomSheetState.collapse()
                     }
-                }, modifier = Modifier.height(55.dp).fillMaxWidth(), backgroundColor = Gray800)
+                }, modifier = Modifier
+                    .height(55.dp)
+                    .fillMaxWidth(), backgroundColor = Gray800)
             }
         }
     }
@@ -263,18 +297,19 @@ fun GoToReset(navController: NavHostController){
         contentAlignment = Alignment.BottomCenter
     ){
         Row() {
-            Text1(text = "Olvidó su contraseña? ", textAlign = TextAlign.End, color = Gray800, fontSize = 16.sp)
+            Text1(text = "Olvidó tu contraseña? ", textAlign = TextAlign.End, color = if(isSystemInDarkTheme()) Color.White else Gray800, fontSize = 16.sp)
             Text1(
-                text = "Cambiala Aquí",
+                text = "Recupérala aqui",
                 textAlign = TextAlign.End,
                 color = Orange400,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable {
                     println("Cambiar Contraseña")
-                    navController.navigate("reset_password")
+                    navController.navigate("reset_passwords") // Cambia a "reset_passwords"
                 },
-            )
+
+                )
         }
     }
 }

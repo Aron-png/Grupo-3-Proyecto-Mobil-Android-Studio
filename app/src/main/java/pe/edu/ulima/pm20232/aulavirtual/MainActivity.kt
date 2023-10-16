@@ -43,6 +43,8 @@ class MainActivity : ComponentActivity() {
     private val profileScrennViewModel by viewModels<ProfileScreenViewModel>()
     private val homeScrennViewModel by viewModels<HomeScreenViewModel>()
     private val pokemonDetailScrennViewModel by viewModels<PokemonDetailScreenViewModel>()
+    private val resetPasswordViewModel by viewModels<ResetPasswordViewModel>()
+    private val registerViewModel by viewModels<RegisterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     var showDialog by remember { mutableStateOf(false) }
                     Scaffold(
                         topBar = {
-                            if(blackList.contains(currentRoute) == false) {
+                            if(currentRoute !in listOf("reset_passwords", "login","register")) {
                                 val screens: List<TopBarScreen> = listOf(
                                     TopBarScreen(
                                         route = "home",
@@ -84,7 +86,7 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         bottomBar = {
-                            if(blackList.contains(currentRoute) == false) {
+                            if(currentRoute !in listOf("reset_passwords", "login","register")) {
                                 val screens: List<BottomBarScreen> = listOf(
                                     BottomBarScreen(
                                         route = "home",
@@ -177,9 +179,12 @@ class MainActivity : ComponentActivity() {
                                     Log.d("POKEMON", "pokemons screen")
                                     PokemonScreen(navController)
                                 }
-                                composable(route = "reset_password") {
-                                    Log.d("ROUTER", "reset password")
-                                    ResetPasswordScreen(navController)
+                                composable(route = "reset_passwords") {
+                                    Log.d("ROUTER", "reset_passwords")
+                                    ResetPasswordScreen(resetPasswordViewModel,navController)
+                                }
+                                composable(route = "register") {
+                                    RegisterScreen(registerViewModel, navController)
                                 }
                                 composable(route = "profile") {
                                     Log.d("ROUTER", "profile")

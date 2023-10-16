@@ -15,7 +15,6 @@ import pe.edu.ulima.pm20232.aulavirtual.configs.BackendClient
 import pe.edu.ulima.pm20232.aulavirtual.models.Generation
 import pe.edu.ulima.pm20232.aulavirtual.services.GenerationService
 import pe.edu.ulima.pm20232.aulavirtual.services.UserService
-import pe.edu.ulima.pm20232.aulavirtual.services.UserService2
 
 class LoginScreenViewModel: ViewModel() {
     var user: String by mutableStateOf("")
@@ -24,14 +23,25 @@ class LoginScreenViewModel: ViewModel() {
     var bottomSheetCollapse: Boolean by mutableStateOf(true)
     var termsAndConditionsChecked: Boolean by mutableStateOf(false)
 
-    private val userService = BackendClient.buildService(UserService2::class.java)
     private val coroutine: CoroutineScope = viewModelScope
 
     fun access(navController: NavController): Unit{
         println("BTN PRESSED")
         println(user)
         println(password)
-        coroutine.launch {
+
+        val userservice=UserService()
+
+        val userId=userservice.checkUser(user,password)
+
+        if (userId != 0) {
+            println("Usuario válido. ID: $userId")
+            navController.navigate("home?user_id=${userId}")
+        } else {
+            message = "Usuario y contraseña no coinciden"
+        }
+
+        /*coroutine.launch {
             try {
                 withContext(Dispatchers.IO) {
                     val response = userService.findOne(user, password)?.execute()
@@ -49,7 +59,7 @@ class LoginScreenViewModel: ViewModel() {
             } finally {
 
             }
-        }
+        }*/
         /*
         if(user == "admin" && password == "123"){
             navController.navigate("profile")

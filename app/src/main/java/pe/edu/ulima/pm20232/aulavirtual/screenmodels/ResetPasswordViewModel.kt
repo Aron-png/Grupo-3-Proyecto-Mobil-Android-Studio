@@ -18,6 +18,8 @@ class ResetPasswordViewModel: ViewModel() {
         println("BTN PRESSED")
         println(DNI)
         println(Correo)
+        val userservice=UserService()
+        val UserId=userservice.changepassword("20180038","B")
         navController.navigate("login")
         message = "Contraseña cambiadda"
     }

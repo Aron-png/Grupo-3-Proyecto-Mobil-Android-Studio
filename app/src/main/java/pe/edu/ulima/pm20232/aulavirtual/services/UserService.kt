@@ -50,6 +50,27 @@ class UserService {
         }
         return resp
     }
+
+    fun addUser(user:String,password: String):Unit{
+        var ta=userList.size+1
+        userList.add(User(ta,user,password,ta))
+    }
+
+    fun changepassword(user: String,password: String):Unit{
+        for (currentUser in userList) {
+            if (currentUser.user == user) {
+                // Encuentra el usuario por el nombre de usuario
+                println("Change "+currentUser.user)
+                /*currentUser.password = newPassword // Cambia la contraseña
+                println("Contraseña cambiada con éxito para el usuario $user")
+                return*/
+            }
+        }
+        // Si el bucle termina y no se encontró el usuario
+        println("Usuario $user no encontrado")
+    }
+
+
 }
 
 interface UserService2 {

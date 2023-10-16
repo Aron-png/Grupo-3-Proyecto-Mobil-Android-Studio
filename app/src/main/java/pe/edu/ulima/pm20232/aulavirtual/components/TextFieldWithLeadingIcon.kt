@@ -19,6 +19,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Gray1200
+import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Gray400
+import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Gray800
 import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Orange400
 import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Orange800
 import pe.edu.ulima.pm20232.aulavirtual.ui.theme.White400
@@ -39,30 +42,29 @@ fun TextFieldWithLeadingIcon(
                 .fillMaxWidth()
                 //.border(1.dp, borderColor)
                 .padding(5.dp)
-                .background(color = Color.Transparent)
-            ,
+                .background(color = Color.Transparent),
             value = text,
             onValueChange = {
                 onTextChanged(it)
             },
             placeholder = {
-                Text(text = placeholder, fontSize = 16.sp)
+                Text(text = placeholder, fontSize = 16.sp,color = Color.Gray)
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.LightGray,
-                unfocusedIndicatorColor = Orange800
+                backgroundColor = if (isSystemInDarkTheme()) Gray1200 else Color.White,
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = if(isSystemInDarkTheme()) Color.DarkGray else Orange800
             ),
             visualTransformation = if (isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
             leadingIcon = {
                 Icon(
                     imageVector = leadingIcon,
                     contentDescription = null,
-                    tint = (if (isSystemInDarkTheme()) White400 else Orange400),
+                    tint = Color.Black,
                     modifier = Modifier
                         .padding(4.dp)
-                        .size(24.dp)
+                        .size(20.dp)
                         .clickable { /* Handle icon click if needed */ }
                 )
             },
@@ -72,21 +74,20 @@ fun TextFieldWithLeadingIcon(
             modifier = Modifier
                 .fillMaxWidth()
                 //.border(1.dp, borderColor)
-                .padding(5.dp)
-                .background(color = Color.Transparent)
-            ,
+                .padding(2.dp)
+                .background(color = Color.Transparent),
             value = text,
             onValueChange = {
                 onTextChanged(it)
             },
             placeholder = {
-                Text(text = placeholder, fontSize = 16.sp)
+                Text(text = placeholder, fontSize = 14.sp)
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 focusedIndicatorColor = Color.LightGray,
-                unfocusedIndicatorColor = Orange800
+                unfocusedIndicatorColor = if (isSystemInDarkTheme()) Color.LightGray else Orange800
             ),
             visualTransformation = if (isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
             leadingIcon = null,
