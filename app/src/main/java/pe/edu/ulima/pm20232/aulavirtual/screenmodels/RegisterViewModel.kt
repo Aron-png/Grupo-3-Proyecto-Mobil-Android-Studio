@@ -6,6 +6,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import pe.edu.ulima.pm20232.aulavirtual.models.User
+import pe.edu.ulima.pm20232.aulavirtual.services.MemberService
 import pe.edu.ulima.pm20232.aulavirtual.services.UserService
 
 class RegisterViewModel: ViewModel() {
@@ -28,7 +30,26 @@ class RegisterViewModel: ViewModel() {
         println(Contraseña)
         println(Repetir)
 
-        navController.navigate("login")
-        message = "Usuario Registrado"
+        val memberservice= MemberService()
+        val UserId=memberservice.adduser(Nombre,Apellidos, DNI, Correo , Telefono,Contraseña)
+
+        if(UserId){
+            message = "Usuario Registrado"
+            navController.navigate("login")
+            Nombre=""
+            Apellidos=""
+            DNI=""
+            Correo=""
+            Telefono=""
+            Contraseña=""
+            Repetir=""
+            message=""
+
+        }
+        else{
+            message="Ocurrio un error"
+        }
+
+
     }
 }

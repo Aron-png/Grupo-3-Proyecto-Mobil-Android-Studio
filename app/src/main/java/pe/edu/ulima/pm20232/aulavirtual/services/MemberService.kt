@@ -37,4 +37,57 @@ class MemberService {
         memberList.add(Member(id = 27, code = 20172768, names = "VELARDE HUAMAN", lastNames = "HECTOR EUSEBIO", email = "20172768@aloe.ulima.edu.pe", phone="999-888-777", imageUrl = "{baseUrl}profile-default.png", levelId = 1, dni = "12345704"))
         memberList.add(Member(id = 28, code = 20183460, names = "ZAPATA ALBUJAR", lastNames = "PAOLO GIULIANO", email = "20183460@aloe.ulima.edu.pe", phone="999-888-777", imageUrl = "{baseUrl}profile-default.png", levelId = 1, dni = "12345705"))
     }
+
+    fun changepassword(DNI: String, correo: String): Boolean {
+        // Buscar al miembro con el DNI y el correo proporcionados
+        val member = memberList.find { it.dni == DNI && it.email == correo }
+
+        // Si se encuentra el miembro, cambiar la contraseña
+        if (member != null) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun adduser(
+        name: String,
+        lastname: String,
+        DNI: String,
+        Correo: String,
+        Telefono: String,
+        Password: String
+    ): Boolean {
+        val baseUrl = BASE_URL
+
+        // Verificar si ya existe un miembro con el mismo DNI o correo
+        if (memberList.any { it.dni == DNI || it.email == Correo }) {
+            println("Ya existe un miembro con el mismo DNI o correo.")
+            return false
+        } else {
+            // Obtener el próximo ID disponible
+            val nextId = memberList.size + 1
+
+            // Crear un nuevo miembro con la información proporcionada
+            val newMember = Member(
+                id = nextId,
+                code = nextId + 20000000, // Ejemplo de generación de código único
+                names = name,
+                lastNames = lastname,
+                email = Correo,
+                phone = Telefono,
+                imageUrl = "${baseUrl}profile-default.png",
+                levelId = 1,
+                dni = DNI
+            )
+
+            // Agregar el nuevo miembro a la lista
+            memberList.add(newMember)
+
+            println("Nuevo miembro agregado con éxito: ${newMember.names} ${newMember.lastNames}")
+            return true
+        }
+    }
+
+
 }
