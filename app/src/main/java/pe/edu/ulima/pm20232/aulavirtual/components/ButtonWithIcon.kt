@@ -36,7 +36,7 @@ fun ButtonWithIcon(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(12.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = text)

@@ -30,25 +30,32 @@ class RegisterViewModel: ViewModel() {
         println(Contraseña)
         println(Repetir)
 
-        val memberservice= MemberService()
-        val UserId=memberservice.adduser(Nombre,Apellidos, DNI, Correo , Telefono,Contraseña)
-
-        if(UserId){
-            message = "Usuario Registrado"
-            navController.navigate("login")
-            Nombre=""
-            Apellidos=""
-            DNI=""
-            Correo=""
-            Telefono=""
-            Contraseña=""
-            Repetir=""
-            message=""
-
+        if(Contraseña!=Repetir){
+            message="Contraseñas no coinciden"
         }
         else{
-            message="Ocurrio un error"
+            val memberservice= MemberService()
+            val UserId=memberservice.adduser(Nombre,Apellidos, DNI, Correo , Telefono,Contraseña)
+
+            if(UserId){
+                message = "Usuario Registrado"
+                navController.navigate("login")
+                Nombre=""
+                Apellidos=""
+                DNI=""
+                Correo=""
+                Telefono=""
+                Contraseña=""
+                Repetir=""
+                message=""
+
+            }
+            else{
+                message="DNI o Correo ya existen"
+            }
         }
+
+
 
 
     }
