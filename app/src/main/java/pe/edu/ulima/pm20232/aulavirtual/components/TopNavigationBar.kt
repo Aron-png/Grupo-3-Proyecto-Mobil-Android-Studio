@@ -46,7 +46,11 @@ fun TopNavigationBar(navController: NavController, screens: List<TopBarScreen>) 
                         onClick = {
                             // Handle menu item click
                             isMenuExpanded = false
-                            navController.navigate(item.route)
+                            if(item.onClick == null && item.route != null){
+                                navController.navigate(item.route)
+                            }else{
+                                item.onClick?.let{it()}
+                            }
                         }
                     ) {
                         Text(text = item.title)
