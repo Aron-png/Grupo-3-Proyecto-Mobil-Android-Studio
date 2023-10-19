@@ -285,7 +285,7 @@ class MainActivity : ComponentActivity() {
                                 ), content = { entry ->
                                     userId = entry.arguments?.getInt("user_id")!!
                                     pokemonDetailScrennViewModel.pokemonId = userId
-                                    PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
+                                    HomeScreen(navController, homeScrennViewModel, true)
                                 })
                                 composable(route = "pokemon") {
                                     Log.d("POKEMON", "pokemons screen")
@@ -300,7 +300,7 @@ class MainActivity : ComponentActivity() {
                                 }
                                 composable(route = "profile") {
                                     Log.d("ROUTER", "profile")
-                                    ProfileScreen(navController, profileScrennViewModel)
+                                    HomeScreen(navController, homeScrennViewModel, false)
                                 }
                                 composable(route = "pokemon/edit?pokemon_id={pokemon_id}", arguments = listOf(
                                     navArgument("pokemon_id") {
