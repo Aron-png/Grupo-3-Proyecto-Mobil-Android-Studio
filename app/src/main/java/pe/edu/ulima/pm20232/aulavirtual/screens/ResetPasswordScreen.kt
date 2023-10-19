@@ -63,8 +63,8 @@ import pe.edu.ulima.pm20232.aulavirtual.ui.theme.White400
 fun Back(navController:NavHostController) {
    Box(
       modifier = Modifier
-         .padding(16.dp)
-         .size(20.dp)
+         .padding(1.dp)
+         .size(50.dp)
    ) {
       IconButton(
          onClick = {
@@ -141,7 +141,7 @@ fun ChangePassword(screenWidthDp: Int, screenHeightDp: Int, viewModel: ResetPass
             modifier = Modifier
                .size(
                   (screenWidthDp * 0.75).dp,
-                  (screenHeightDp * 0.45).dp
+                  (screenHeightDp * 0.38).dp
                )
                .border(1.dp, Gray800)
                .background(if (isSystemInDarkTheme()) Gray1200 else White400)
@@ -175,7 +175,7 @@ fun ChangePassword(screenWidthDp: Int, screenHeightDp: Int, viewModel: ResetPass
                      .padding(top = 2.dp),
                   horizontalArrangement = Arrangement.Center,
                ) {
-                  ButtonWithIcon("ENVIAR CORREO", Icons.Default.Person, {
+                  ButtonWithIcon("ENVIAR CORREO", {
                      viewModel.access(navController)
                   })
                }

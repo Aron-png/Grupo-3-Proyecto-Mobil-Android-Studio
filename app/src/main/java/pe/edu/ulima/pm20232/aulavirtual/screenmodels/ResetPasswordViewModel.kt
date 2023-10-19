@@ -5,7 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pe.edu.ulima.pm20232.aulavirtual.services.MemberService
 import pe.edu.ulima.pm20232.aulavirtual.services.UserService
 
@@ -22,14 +25,23 @@ class ResetPasswordViewModel: ViewModel() {
         val memberservice=MemberService()
         val UserId=memberservice.changepassword(DNI,Correo)
         if(UserId){
-            message="Solicitud con éxito"
-            navController.navigate("login")
-            DNI=""
-            Correo=""
-            message=""
+            viewModelScope.launch {
+                message="Solicitud de cambio de contraseña"
+                delay(1000)
+                DNI=""
+                Correo=""
+                message=""
+                navController.navigate("login")
+            }
+
         }
         else{
             message="No se encontró ningún miembro"
+            viewModelScope.launch {
+                delay(1000)
+                message = ""
+            }
+
         }
 
     }

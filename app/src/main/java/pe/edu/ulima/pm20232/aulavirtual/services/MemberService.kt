@@ -57,21 +57,24 @@ class MemberService {
         Correo: String,
         Telefono: String,
         Password: String
-    ): Boolean {
+    ): Int {
+        // Verificar campos vacíos
+        if (name.isEmpty() || lastname.isEmpty() || DNI.isEmpty() || Correo.isEmpty() || Telefono.isEmpty() || Password.isEmpty()) {
+            println("Por favor, complete todos los campos.")
+            return 0
+        }
+
         val baseUrl = BASE_URL
 
-        // Verificar si ya existe un miembro con el mismo DNI o correo
         if (memberList.any { it.dni == DNI || it.email == Correo }) {
             println("Ya existe un miembro con el mismo DNI o correo.")
-            return false
+            return 1
         } else {
-            // Obtener el próximo ID disponible
             val nextId = memberList.size + 1
 
-            // Crear un nuevo miembro con la información proporcionada
             val newMember = Member(
                 id = nextId,
-                code = nextId + 20000000, // Ejemplo de generación de código único
+                code = nextId + 20000000,
                 names = name,
                 lastNames = lastname,
                 email = Correo,
@@ -81,13 +84,13 @@ class MemberService {
                 dni = DNI
             )
 
-            // Agregar el nuevo miembro a la lista
             memberList.add(newMember)
 
             println("Nuevo miembro agregado con éxito: ${newMember.names} ${newMember.lastNames}")
-            return true
+            return 2
         }
     }
+
 
 
 }

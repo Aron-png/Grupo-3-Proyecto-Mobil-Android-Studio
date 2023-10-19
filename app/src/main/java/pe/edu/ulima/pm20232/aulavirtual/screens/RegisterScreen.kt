@@ -108,6 +108,18 @@ fun TopScreenR() {
             modifier = Modifier.size(70.dp),
             colorFilter = ColorFilter.tint(if (isSystemInDarkTheme()) Color.White else Orange400)
          )
+         Text(
+            text = "Gimnasio ULima",
+            textAlign = TextAlign.Center,
+            color = if(isSystemInDarkTheme()) Color.White else Color.Black,
+            //fontSize = 40.sp,
+            modifier =  Modifier.padding(top = 5.dp, bottom = 20.dp),
+            style = MaterialTheme.typography.h4.copy(
+               fontSize = 20.sp,
+               fontFamily = FontFamily(Font(R.font.caslon_classico_sc_regular)),
+               color = if (isSystemInDarkTheme()) White400 else Orange400 // Apply the custom text color here
+            )
+         )
 
       }
    }
@@ -122,7 +134,7 @@ fun RegisterR(screenWidthDp: Int, screenHeightDp: Int, viewModel: RegisterViewMo
    Box(
       modifier = Modifier
          .fillMaxSize()
-         .padding(top = (screenHeightDp * (0.01)).dp)
+         //.padding(top = (screenHeightDp * (0.01)).dp)
          .background(if (isSystemInDarkTheme()) Color.Black else Gray1200),
    ) {
       Box(
@@ -132,7 +144,7 @@ fun RegisterR(screenWidthDp: Int, screenHeightDp: Int, viewModel: RegisterViewMo
                start = (screenWidthDp * 0.1).dp,
                top = (1.dp),
                end = (screenWidthDp * 0.1).dp,
-               bottom = (40.dp)
+               bottom = (20.dp)
             ),
       ) {
          Box(
@@ -140,7 +152,7 @@ fun RegisterR(screenWidthDp: Int, screenHeightDp: Int, viewModel: RegisterViewMo
                .fillMaxSize()
                .border(1.dp, Gray800)
                .background(if (isSystemInDarkTheme()) Gray1200 else White400)
-               .padding(20.dp)
+               .padding(15.dp)
          ) {
             Column(
                verticalArrangement = Arrangement.Center,
@@ -215,7 +227,7 @@ fun RegisterR(screenWidthDp: Int, screenHeightDp: Int, viewModel: RegisterViewMo
                      .padding(top = 2.dp),
                   horizontalArrangement = Arrangement.Center,
                ) {
-                  ButtonWithIcon("CREAR CUENTA", Icons.Default.Person, {
+                  ButtonWithIcon("CREAR CUENTA", {
                      viewModel.access(navController)
                   })
                }
@@ -242,4 +254,6 @@ fun RegisterScreen(viewModel: RegisterViewModel, navController: NavHostControlle
       RegisterR(screenWidthDp, screenHeightDp, viewModel, navController)
    }
 }
+
+
 

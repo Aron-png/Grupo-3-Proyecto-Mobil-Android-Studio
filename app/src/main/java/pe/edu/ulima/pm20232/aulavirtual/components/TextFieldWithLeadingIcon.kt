@@ -64,7 +64,7 @@ fun TextFieldWithLeadingIcon(
                     tint = Color.Black,
                     modifier = Modifier
                         .padding(4.dp)
-                        .size(20.dp)
+                        .size(18.dp)
                         .clickable { /* Handle icon click if needed */ }
                 )
             },
@@ -74,14 +74,14 @@ fun TextFieldWithLeadingIcon(
             modifier = Modifier
                 .fillMaxWidth()
                 //.border(1.dp, borderColor)
-                .padding(2.dp)
+                .padding(1.dp)
                 .background(color = Color.Transparent),
             value = text,
             onValueChange = {
                 onTextChanged(it)
             },
             placeholder = {
-                Text(text = placeholder, fontSize = 14.sp)
+                Text(text = placeholder, fontSize = 5.sp)
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -91,6 +91,7 @@ fun TextFieldWithLeadingIcon(
             ),
             visualTransformation = if (isPassword == false) VisualTransformation.None else PasswordVisualTransformation(),
             leadingIcon = null,
-        )
+
+            )
     }
 }

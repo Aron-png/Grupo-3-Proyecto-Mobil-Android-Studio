@@ -1,5 +1,8 @@
 package pe.edu.ulima.pm20232.aulavirtual.screenmodels
 
+import android.app.Notification
+import android.widget.Toast
+import androidx.compose.material.AlertDialog
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,12 +12,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pe.edu.ulima.pm20232.aulavirtual.configs.BackendClient
 import pe.edu.ulima.pm20232.aulavirtual.models.Generation
 import pe.edu.ulima.pm20232.aulavirtual.services.GenerationService
 import pe.edu.ulima.pm20232.aulavirtual.services.UserService
+
+
 
 class LoginScreenViewModel: ViewModel() {
     var user: String by mutableStateOf("")
@@ -36,12 +42,24 @@ class LoginScreenViewModel: ViewModel() {
 
         if (userId != 0) {
             println("Usuario válido. ID: $userId")
-            navController.navigate("home?user_id=${userId}")
+            message="Bienvenido"
+            viewModelScope.launch {
+                delay(1000)
+                navController.navigate("home?user_id=${userId}")
+            }
         } else {
-            message = "Usuario y contraseña no coinciden"
+
+            message = "Usuario o contraseña incorrectos"
             user=""
             password=""
+            viewModelScope.launch {
+                delay(1000)
+                message = ""
+            }
+
         }
+
+
 
         /*coroutine.launch {
             try {
@@ -76,4 +94,6 @@ class LoginScreenViewModel: ViewModel() {
         }
          */
     }
+
+
 }

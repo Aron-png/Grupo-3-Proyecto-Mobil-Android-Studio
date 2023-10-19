@@ -5,7 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pe.edu.ulima.pm20232.aulavirtual.models.User
 import pe.edu.ulima.pm20232.aulavirtual.services.MemberService
 import pe.edu.ulima.pm20232.aulavirtual.services.UserService
@@ -32,26 +35,46 @@ class RegisterViewModel: ViewModel() {
 
         if(Contraseña!=Repetir){
             message="Contraseñas no coinciden"
+            viewModelScope.launch {
+                delay(1000)
+                message = ""
+            }
         }
         else{
             val memberservice= MemberService()
             val UserId=memberservice.adduser(Nombre,Apellidos, DNI, Correo , Telefono,Contraseña)
 
-            if(UserId){
-                message = "Usuario Registrado"
-                navController.navigate("login")
-                Nombre=""
-                Apellidos=""
-                DNI=""
-                Correo=""
-                Telefono=""
-                Contraseña=""
-                Repetir=""
-                message=""
+            if(UserId===0){
+                message="Llene todos los campos"
+                viewModelScope.launch {
+                    delay(1000)
+                    message = ""
+                }
+            }
+            else if(UserId===2){
+                message = "Cuenta creada"
+                viewModelScope.launch {
+                    delay(1000)
+                    message = ""
+                    Nombre=""
+                    Apellidos=""
+                    DNI=""
+                    Correo=""
+                    Telefono=""
+                    Contraseña=""
+                    Repetir=""
+                    message=""
+                    navController.navigate("login")
+                }
+
 
             }
-            else{
+            else if(UserId===1){
                 message="DNI o Correo ya existen"
+                viewModelScope.launch {
+                    delay(1000)
+                    message = ""
+                }
             }
         }
 

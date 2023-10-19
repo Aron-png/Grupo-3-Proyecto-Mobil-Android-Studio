@@ -108,7 +108,7 @@ fun LoginForm(
                 modifier = Modifier
                     .size(
                         (screenWidthDp * 0.75).dp,
-                        (screenHeightDp * 0.45).dp
+                        (screenHeightDp * 0.42).dp
                     ) // Adjust the size as needed
                     .border(1.dp, Gray800)
                     .background(if (isSystemInDarkTheme()) Gray1200 else White400)
@@ -144,7 +144,7 @@ fun LoginForm(
                             .padding(top = 2.dp),
                         horizontalArrangement = Arrangement.Center,
                     ){
-                        ButtonWithIcon("LOGIN", Icons.Default.Person, {
+                        ButtonWithIcon("LOGIN", {
                             viewModel.access(navController)
                         })
                     }
@@ -240,7 +240,7 @@ fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState
                     .padding(start = 5.dp, end = 5.dp) // Equal weight for the first part
             ) {
                 ButtonWithIcon(
-                    text = "Acepto", icon = Icons.Default.Check, onClick  = {
+                    text = "Acepto", onClick  = {
                         coroutineScope.launch {
                             viewModel.bottomSheetCollapse = true
                             viewModel.termsAndConditionsChecked = true
@@ -255,7 +255,7 @@ fun TermsAndConditions(viewModel: LoginScreenViewModel, bottomSheetScaffoldState
                     .weight(1f)
                     .padding(start = 5.dp, end = 5.dp) // Equal weight for the second part
             ) {
-                ButtonWithIcon("No Acpeto", Icons.Default.Delete, onClick = {
+                ButtonWithIcon("No Acpeto", onClick = {
                     coroutineScope.launch {
                         viewModel.bottomSheetCollapse = true
                         viewModel.termsAndConditionsChecked = false
@@ -325,3 +325,4 @@ fun LoginScreen(viewModel: LoginScreenViewModel, navController: NavHostControlle
         GoToReset(navController)
     }
 }
+
