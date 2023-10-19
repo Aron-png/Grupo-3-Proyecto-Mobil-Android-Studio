@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PrActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminActivity"
             android:exported="false">
             <meta-data

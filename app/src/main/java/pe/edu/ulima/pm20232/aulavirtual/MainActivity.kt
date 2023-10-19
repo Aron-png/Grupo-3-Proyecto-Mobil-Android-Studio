@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
     private val pokemonDetailScrennViewModel by viewModels<PokemonDetailScreenViewModel>()
     private val resetPasswordViewModel by viewModels<ResetPasswordViewModel>()
     private val registerViewModel by viewModels<RegisterViewModel>()
+    var userId: Int by mutableStateOf(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +75,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val blackList: List<String> = listOf("profile", "login")
+                    val blackList: List<String> = listOf("profile", "login","ver_perfil")
                     val currentRoute = navBackStackEntry?.destination?.route
                     var showDialog by remember { mutableStateOf(false) }
                     var showShare by remember { mutableStateOf(false) }
@@ -99,7 +100,7 @@ class MainActivity : ComponentActivity() {
                                         title = "Home",
                                     ),
                                     TopBarScreen(
-                                        route = "profile",
+                                        route = "ver_perfil",
                                         title = "Ver Perfíl",
                                     ),
                                     TopBarScreen(
@@ -122,7 +123,7 @@ class MainActivity : ComponentActivity() {
                                     ),
 
                                 )
-                                TopNavigationBar(navController, screens)
+                                TopNavigationBar(navController, screens, userId)
                             }
                         },
                         bottomBar = {
@@ -265,16 +266,27 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-                            NavHost(navController, startDestination = "login") {
+                            NavHost(navController, startDestination = "pokemon") {
                                 composable(route = "splash") {
                                     SplashScreen {
                                         navController.navigate("login")
                                     }
                                 }
+                                /*
                                 composable(route = "home") {
                                     Log.d("HOME", "home screen")
                                     HomeScreen(navController, homeScrennViewModel)
-                                }
+                                }*/
+                                composable(route = "home?user_id={user_id}", arguments = listOf(
+                                    navArgument("user_id") {
+                                        type = NavType.IntType
+                                        defaultValue = 0
+                                    }
+                                ), content = { entry ->
+                                    userId = entry.arguments?.getInt("user_id")!!
+                                    pokemonDetailScrennViewModel.pokemonId = userId
+                                    PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
+                                })
                                 composable(route = "pokemon") {
                                     Log.d("POKEMON", "pokemons screen")
                                     PokemonScreen(navController)

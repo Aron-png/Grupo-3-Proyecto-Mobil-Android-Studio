@@ -39,6 +39,7 @@ import coil.request.SuccessResult
 import coil.transform.CircleCropTransformation
 import kotlinx.coroutines.launch
 import pe.edu.ulima.pm20232.aulavirtual.AdminActivity
+import pe.edu.ulima.pm20232.aulavirtual.PrActivity
 import pe.edu.ulima.pm20232.aulavirtual.models.Pokemon
 import pe.edu.ulima.pm20232.aulavirtual.screenmodels.ProfileScreenViewModel
 import pe.edu.ulima.pm20232.aulavirtual.services.PokemonService
