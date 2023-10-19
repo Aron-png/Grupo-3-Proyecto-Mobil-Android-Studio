@@ -39,6 +39,8 @@ class LoginScreenViewModel: ViewModel() {
             navController.navigate("home?user_id=${userId}")
         } else {
             message = "Usuario y contraseña no coinciden"
+            user=""
+            password=""
         }
 
         /*coroutine.launch {
