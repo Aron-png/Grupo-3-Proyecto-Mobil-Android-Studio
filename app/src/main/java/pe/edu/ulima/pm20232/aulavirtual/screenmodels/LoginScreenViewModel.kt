@@ -45,6 +45,9 @@ class LoginScreenViewModel: ViewModel() {
             message="Bienvenido"
             viewModelScope.launch {
                 delay(1000)
+                user=""
+                password=""
+                message=""
                 navController.navigate("home?user_id=${userId}")
             }
         } else {
