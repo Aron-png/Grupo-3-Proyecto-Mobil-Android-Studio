@@ -78,5 +78,6 @@ class HomeScreenViewModel: ViewModel(){
         val service: ExerciseService = ExerciseService()
         val list = service.exerciseListByBodyPartId(bodyPartId)
         setExercises(list)
+
     }
 }

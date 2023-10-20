@@ -1,12 +1,20 @@
 package pe.edu.ulima.pm20232.aulavirtual.screens
 
+import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.ui.unit.dp
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,17 +38,20 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import pe.edu.ulima.pm20232.aulavirtual.screenmodels.HomeScreenViewModel
+import pe.edu.ulima.pm20232.aulavirtual.services.ExerciseMemberService
 import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Gray1200
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExercisesGrid(navController: NavController, model: HomeScreenViewModel){
     var intValue by remember { mutableStateOf(0) }
-    //val pokemons by model.pokemons.collectAsState()
     val exercises by model.exercises.collectAsState()
     LazyVerticalGrid(
-        cells = GridCells.Fixed(4) // Specify the number of columns
+        cells = GridCells.Fixed(4)
     ) {
         items(exercises.size) { i ->
             Column(){
@@ -52,9 +63,8 @@ fun ExercisesGrid(navController: NavController, model: HomeScreenViewModel){
                         .size(100.dp)
                         .padding(bottom = 10.dp)
                         .clickable {
-                            //Log.d("POKEMONS", model.pokemons[i].id.toString())
                             intValue = exercises[i].id.toInt()
-                            navController.navigate("pokemon/edit?pokemon_id=${intValue}")
+                            //navController.navigate("pokemon/edit?pokemon_id=${intValue}")
                         },
                 )
                 Text(exercises[i].name)
@@ -70,13 +80,56 @@ fun SelectOpitions(model: HomeScreenViewModel) {
     var selectedText by remember { mutableStateOf("") }
     var textfieldSize by remember { mutableStateOf(Size.Zero)}
 
+    val exerciseMemberService = ExerciseMemberService()
+    val memberId = 3
+    val assignedExerciseCount = exerciseMemberService.getExerciseCountForMember(memberId)
+    val trainedBodyParts = exerciseMemberService.countUniqueBodyPartIds(memberId)
+
     val icon = if (expanded)
         Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.KeyboardArrowDown
+
     Column(
         Modifier.padding(bottom = 20.dp)
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Column (
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
+                Text(
+                    text = assignedExerciseCount.toString(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 54.sp,
+                )
+                Text(
+                    text = "Ejercicios Asignados",
+                )
+            }
+            Column (
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
+                Text(
+                    text = trainedBodyParts.toString(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 54.sp,
+                )
+                Text(
+                    text = "Partes del Cuerpo \nEntrenadas",
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+        Divider()
+        Spacer(modifier = Modifier.height(32.dp))
+
         OutlinedTextField(
             value = selectedText,
             onValueChange = { selectedText = it },
@@ -116,11 +169,9 @@ fun SelectOpitions(model: HomeScreenViewModel) {
         }
     }
 }
-
 @Composable
-fun HomeScreen(navController: NavController, model: HomeScreenViewModel){
-    model.listAll()
-    model.getGenerations()
+@SuppressLint("StateFlowValueCalledInComposition")
+fun HomeScreen(navController: NavController, model: HomeScreenViewModel) {
     model.getBodyParts()
     model.listAllExercises()
     Column(

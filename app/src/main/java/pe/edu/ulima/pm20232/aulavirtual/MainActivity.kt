@@ -266,17 +266,17 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-                            NavHost(navController, startDestination = "pokemon") {
+                            NavHost(navController, startDestination = "home") {
                                 composable(route = "splash") {
                                     SplashScreen {
                                         navController.navigate("login")
                                     }
                                 }
-                                /*
+
                                 composable(route = "home") {
                                     Log.d("HOME", "home screen")
                                     HomeScreen(navController, homeScrennViewModel)
-                                }*/
+                                }
                                 composable(route = "home?user_id={user_id}", arguments = listOf(
                                     navArgument("user_id") {
                                         type = NavType.IntType

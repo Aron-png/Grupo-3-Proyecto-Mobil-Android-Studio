@@ -1,7 +1,7 @@
 package pe.edu.ulima.pm20232.aulavirtual.services
 
 import pe.edu.ulima.pm20232.aulavirtual.models.ExerciseMember
-
+import pe.edu.ulima.pm20232.aulavirtual.services.ExerciseService
 class ExerciseMemberService {
     var exerciseMemberList: ArrayList<ExerciseMember> = ArrayList<ExerciseMember>()
 
@@ -409,4 +409,27 @@ class ExerciseMemberService {
         exerciseMemberList.add(ExerciseMember(id = 401, reps = 11, sets = 5, exerciseId = 50, memberId = 28))
         exerciseMemberList.add(ExerciseMember(id = 402, reps = 16, sets = 3, exerciseId = 45, memberId = 28))
     }
+    fun getExerciseCountForMember(memberId: Int): Int {
+        return exerciseMemberList.count { it.memberId == memberId }
+    }
+    val exerciseService = ExerciseService() // Crea una instancia de ExerciseService
+    val exerciseList = exerciseService.exerciseList
+    fun countUniqueBodyPartIds(userId: Int): Int {
+
+        val userExerciseIds = exerciseMemberList
+            .filter { it.memberId == userId }
+            .map { it.exerciseId }
+
+        val uniqueBodyPartIds = HashSet<Int>()
+
+        for (exerciseId in userExerciseIds) {
+            val exercise = exerciseList.find { it.id == exerciseId }
+            exercise?.let {
+                uniqueBodyPartIds.add(exercise.bodyPartId)
+            }
+        }
+
+        return uniqueBodyPartIds.size
+    }
+
 }
