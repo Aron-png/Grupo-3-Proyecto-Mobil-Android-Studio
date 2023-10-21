@@ -267,6 +267,7 @@ class MainActivity : ComponentActivity() {
                             }
 
                             NavHost(navController, startDestination = "login") {
+                                //pantalla con el logo de la Ulima
                                 composable(route = "splash") {
                                     SplashScreen {
                                         navController.navigate("login")
@@ -277,6 +278,7 @@ class MainActivity : ComponentActivity() {
                                     Log.d("HOME", "home screen")
                                     HomeScreen(navController, homeScrennViewModel)
                                 }
+                                //pantalla que muestra los ejercicios del usuario
                                 composable(route = "home?user_id={user_id}", arguments = listOf(
                                     navArgument("user_id") {
                                         type = NavType.IntType
@@ -284,8 +286,10 @@ class MainActivity : ComponentActivity() {
                                     }
                                 ), content = { entry ->
                                     userId = entry.arguments?.getInt("user_id")!!
-                                    pokemonDetailScrennViewModel.pokemonId = userId
-                                    PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
+                                    //pokemonDetailScrennViewModel.pokemonId = userId
+                                    homeScrennViewModel.userId = userId
+                                    HomeScreen(navController, homeScrennViewModel)
+                                    //PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
                                 })
                                 composable(route = "pokemon") {
                                     Log.d("POKEMON", "pokemons screen")

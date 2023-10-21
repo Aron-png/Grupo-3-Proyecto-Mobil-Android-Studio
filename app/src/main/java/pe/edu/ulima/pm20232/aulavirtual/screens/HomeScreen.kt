@@ -81,7 +81,7 @@ fun SelectOpitions(model: HomeScreenViewModel) {
     var textfieldSize by remember { mutableStateOf(Size.Zero)}
 
     val exerciseMemberService = ExerciseMemberService()
-    val memberId = 3
+    val memberId = model.userId
     val assignedExerciseCount = exerciseMemberService.getExerciseCountForMember(memberId)
     val trainedBodyParts = exerciseMemberService.countUniqueBodyPartIds(memberId)
 

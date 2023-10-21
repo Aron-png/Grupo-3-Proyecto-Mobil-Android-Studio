@@ -196,7 +196,7 @@ fun RegisterR(screenWidthDp: Int, screenHeightDp: Int, viewModel: RegisterViewMo
                TextFieldWithLeadingIcon(
                   leadingIcon = Icons.Default.Phone,
                   text = viewModel.Telefono,
-                  placeholder = "Telefono",
+                  placeholder = "Teléfono",
                   onTextChanged = {
                      viewModel.Telefono = it
                   }

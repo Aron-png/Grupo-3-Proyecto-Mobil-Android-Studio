@@ -119,7 +119,7 @@ fun LoginForm(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
-                    Text1(text ="INGRESA ESTA INFORMACION", fontSize = 15.sp,color = Color.DarkGray)
+                    Text1(text ="INGRESA ESTA INFORMACIÓN", fontSize = 15.sp,color = Color.DarkGray)
                     TextFieldWithLeadingIcon(
                         leadingIcon = Icons.Default.Person, // Replace with your desired icon
                         placeholder = "Usuario",
@@ -157,7 +157,7 @@ fun LoginForm(
 
                         Text1(text = "No tienes una cuenta? ", textAlign = TextAlign.End, color = Gray800, fontSize = 16.sp)
                         Text1(
-                            text = "Creala aquí",
+                            text = "Créala aquí",
                             textAlign = TextAlign.End,
                             color = Orange400,
                             fontSize = 16.sp,
@@ -297,7 +297,7 @@ fun GoToReset(navController: NavHostController){
         contentAlignment = Alignment.BottomCenter
     ){
         Row() {
-            Text1(text = "Olvidó tu contraseña? ", textAlign = TextAlign.End, color = if(isSystemInDarkTheme()) Color.White else Gray800, fontSize = 16.sp)
+            Text1(text = "Olvidaste tu contraseña? ", textAlign = TextAlign.End, color = if(isSystemInDarkTheme()) Color.White else Gray800, fontSize = 16.sp)
             Text1(
                 text = "Recupérala aqui",
                 textAlign = TextAlign.End,

@@ -1,7 +1,10 @@
 package pe.edu.ulima.pm20232.aulavirtual.screenmodels
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +19,7 @@ import pe.edu.ulima.pm20232.aulavirtual.services.PokemonService
 class HomeScreenViewModel: ViewModel(){
     //var pokemons = mutableStateListOf<Pokemon>()
     val generationsMap = mutableMapOf<Int, String>()
+    var userId: Int by mutableStateOf(0)
 
     private var _pokemons = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemons: StateFlow<List<Pokemon>> get() = _pokemons
