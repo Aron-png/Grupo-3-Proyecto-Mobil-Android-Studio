@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -36,6 +37,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,8 +46,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import pe.edu.ulima.pm20232.aulavirtual.screenmodels.HomeScreenViewModel
+import pe.edu.ulima.pm20232.aulavirtual.screens.HomeScreen
+import pe.edu.ulima.pm20232.aulavirtual.screens.SplashScreen
 import pe.edu.ulima.pm20232.aulavirtual.services.MemberService
 import pe.edu.ulima.pm20232.aulavirtual.ui.theme.AulaVirtualTheme
 import pe.edu.ulima.pm20232.aulavirtual.ui.theme.Gray1200
@@ -56,6 +65,7 @@ import pe.edu.ulima.pm20232.aulavirtual.ui.theme.White400
 class PrActivity : ComponentActivity() {
     val imageUrl = "https://e.rpp-noticias.io/xlarge/2021/11/02/140114_1168254.jpg"
     val IconPerson = Icons.Default.Person//IMPORTANTE no BORRAR el icono de la persona
+    private val homeScrennViewModel by viewModels<HomeScreenViewModel>()
     val IconPhone = Icons.Default.Phone
     val IconEmail = Icons.Default.Email
     private val memberService = MemberService()
@@ -88,7 +98,7 @@ class PrActivity : ComponentActivity() {
                 .height(55.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Orange400, // cambia color por estado
-                contentColor =  if (isSystemInDarkTheme()) White400 else Color.Black,// cambia color por estado
+                contentColor = if (isSystemInDarkTheme()) White400 else Color.Black,// cambia color por estado
                 // Text and icon color
             ),
             contentPadding = PaddingValues(16.dp)
@@ -101,13 +111,13 @@ class PrActivity : ComponentActivity() {
             }
         }
     }
+
     /* @Composable
      fun lol( model:HomeScreenViewModel ){
          val exercises by model.exercises.collectAsState()
          }
  */
     override fun onCreate(savedInstanceState: Bundle?) {
-        val intent_to_mainactivity = Intent(this, MainActivity::class.java)
         val intent = intent
         var param1 = 5
         var memberWithId1 = memberService.memberList.find { it.id == param1 }
@@ -129,7 +139,13 @@ class PrActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Box( // caja gris (light)
+                    val navController = rememberNavController()
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val blackList: List<String> = listOf("profile", "login", "ver_perfil")
+                    val currentRoute = navBackStackEntry?.destination?.route
+                    NavHost(navController, startDestination = "myRoute") {
+                        composable(route = "myRoute") {Box(
+                        // caja gris (light)
                         modifier = Modifier
                             .fillMaxSize()
                             .background(if (isSystemInDarkTheme()) Color.Black else White400), // cambia color por estado
@@ -141,17 +157,18 @@ class PrActivity : ComponentActivity() {
                             //verticalArrangement = Arrangement.Center, --> centrado vertical
                             //horizontalAlignment = Alignment.CenterHorizontally --> centrado horizontal
                             horizontalAlignment = Alignment.Start // Alineación a la izquierda
+
                         ) {
                             Row(
                                 modifier = Modifier
                                     .padding(20.dp)
-                            ){
-                                Column(){
+                            ) {
+                                Column() {
                                     IconButton(
                                         onClick = {
-                                            startActivity(intent_to_mainactivity)
+                                            navController.navigate("home")
                                         }
-                                    ){
+                                    ) {
                                         Icon(
                                             imageVector = Icons.Default.ArrowBack,
                                             contentDescription = null,
@@ -165,7 +182,7 @@ class PrActivity : ComponentActivity() {
                                 Column(
                                     modifier = Modifier
                                         .padding(start = 260.dp)
-                                ){
+                                ) {
                                     Icon(
                                         imageVector = Icons.Default.Edit,
                                         contentDescription = null,
@@ -177,17 +194,17 @@ class PrActivity : ComponentActivity() {
                             Row(
                                 modifier = Modifier
                                     .padding(20.dp)
-                            ){
+                            ) {
                                 ImageView(url = imageUrl, width = 100, height = 100)
                                 Column(
                                     // Espacio a la izquierda del texto para que...
                                     // los siguientes elementos esten a la misma altura horizontal de la imagen
                                     modifier = Modifier.padding(start = 16.dp)
-                                ){
+                                ) {
                                     if (memberWithId1 != null) {
                                         Text(
                                             text = "${memberWithId1.names}",
-                                            color = if(isSystemInDarkTheme()) Color.White else Color.Black,
+                                            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                                             fontSize = 28.sp,
                                             fontWeight = FontWeight.Bold
                                         )
@@ -196,11 +213,11 @@ class PrActivity : ComponentActivity() {
                                     Row(
                                         // Alineación vertical al centro
                                         verticalAlignment = Alignment.CenterVertically
-                                    ){
+                                    ) {
 
                                         Column(
                                             modifier = Modifier.padding(start = 8.dp)
-                                        ){
+                                        ) {
                                             Row() {
                                                 Icon(
                                                     imageVector = IconPerson,
@@ -211,12 +228,16 @@ class PrActivity : ComponentActivity() {
                                                 if (memberWithId1 != null) {
                                                     Text(
                                                         text = "${memberWithId1.code}",
-                                                        color= if(isSystemInDarkTheme()) Color.Gray else Color.Black,
+                                                        color = if (isSystemInDarkTheme()) Color.Gray else Color.Black,
                                                         fontSize = 14.sp
                                                     )
                                                 }
                                             }
-                                            Text("Crossfitero", color= Color.Gray, fontSize = 14.sp)
+                                            Text(
+                                                "Crossfitero",
+                                                color = Color.Gray,
+                                                fontSize = 14.sp
+                                            )
                                         }
 
                                     }
@@ -240,9 +261,10 @@ class PrActivity : ComponentActivity() {
                                 if (memberWithId1 != null) {
                                     Text(
                                         text = "${memberWithId1.phone}",
-                                        color= Color.Gray ,
+                                        color = Color.Gray,
                                         fontSize = 14.sp
-                                    )}
+                                    )
+                                }
                             }
                             Row(
                                 // Espacio a la izquierda del texto para que...
@@ -255,19 +277,21 @@ class PrActivity : ComponentActivity() {
                                     modifier = Modifier
                                         .size(30.dp)
                                         .padding(5.dp),
-                                    tint =if (isSystemInDarkTheme()) White400 else Color.Black,
+                                    tint = if (isSystemInDarkTheme()) White400 else Color.Black,
                                 )
                                 if (memberWithId1 != null) {
                                     Text(
                                         text = "${memberWithId1.email}",
-                                        color= Color.Gray,
+                                        color = Color.Gray,
                                         fontSize = 14.sp
                                     )
                                 }
                             }
 
                             Spacer(modifier = Modifier.height(20.dp))//espacio vertical de 20.dp
-                            ButtonWithIcon2(text = "Actualizar datos",onClick = { /* Tu función de clic aquí */ })
+                            ButtonWithIcon2(
+                                text = "Actualizar datos",
+                                onClick = { /* Tu función de clic aquí */ })
 
                             Spacer(modifier = Modifier.height(40.dp)) //Espacio para los datos
 
@@ -282,16 +306,19 @@ class PrActivity : ComponentActivity() {
                                 ) {
                                     Row(
                                         modifier = Modifier.padding(start = 65.dp)
-                                    ){
-                                        Text("22",
+                                    ) {
+                                        Text(
+                                            "22",
                                             color = if (isSystemInDarkTheme()) White400 else Color.Black, // cambia color por estado
                                             fontSize = 32.sp,
-                                            fontWeight = FontWeight.Bold) //Los numeros deben ser más grandes y gruesos
+                                            fontWeight = FontWeight.Bold
+                                        ) //Los numeros deben ser más grandes y gruesos
                                     }
                                     Row(
                                         modifier = Modifier.padding(start = 10.dp)
-                                    ){
-                                        Text("Ejercicios Asignados",
+                                    ) {
+                                        Text(
+                                            "Ejercicios Asignados",
                                             color = if (isSystemInDarkTheme()) White400 else Color.Black, // cambia color por estado
                                             fontSize = 16.sp,
                                             textAlign = TextAlign.Center,
@@ -306,15 +333,17 @@ class PrActivity : ComponentActivity() {
                                 ) {
                                     Row(
                                         modifier = Modifier.padding(start = 85.dp)
-                                    ){
-                                        Text("4",
+                                    ) {
+                                        Text(
+                                            "4",
                                             color = if (isSystemInDarkTheme()) White400 else Color.Black, // cambia color por estado
                                             fontSize = 32.sp,
-                                            fontWeight = FontWeight.Bold)
+                                            fontWeight = FontWeight.Bold
+                                        )
                                     }
                                     Row(
                                         modifier = Modifier.padding(start = 16.dp)
-                                    ){
+                                    ) {
                                         Text(
                                             "Partes del cuerpo entrenadas",
                                             color = if (isSystemInDarkTheme()) White400 else Color.Black, // cambia color por estado
@@ -329,20 +358,29 @@ class PrActivity : ComponentActivity() {
                             Spacer(modifier = Modifier.height(120.dp)) //Espaciado grande antes de botón
 
                             Row(
-                            ){
-                                ButtonWithIcon2(text = "Cerrar Sesión", onClick = { /* Tu función de clic aquí */ })
+                            ) {
+                                ButtonWithIcon2(
+                                    text = "Cerrar Sesión",
+                                    onClick = { /* Tu función de clic aquí */ })
 
                             }
                         }
+
+
+                    }}
+                        composable(route = "home") {
+                        Log.d("HOME", "home screen")
+                        HomeScreen(navController, homeScrennViewModel)
+                        }
                     }
-                }
-            }
-            val context = LocalContext.current
-            val currentActivity = (context as? ComponentActivity)
-            BackHandler {
-                Log.d("ADMIN ACTIVITY", "BackHandler")
-                currentActivity?.let {
-                    it.finishAffinity() // Finish the current activity and all associated activities
+                    val context = LocalContext.current
+                    val currentActivity = (context as? ComponentActivity)
+                    BackHandler {
+                        Log.d("ADMIN ACTIVITY", "BackHandler")
+                        currentActivity?.let {
+                            it.finishAffinity() // Finish the current activity and all associated activities
+                        }
+                    }
                 }
             }
         }
