@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -50,6 +51,7 @@ fun RowScope.AddItem(
         selected = currentDestination?.hierarchy?.any {
             it.route == screen.route
         } == true,
+        selectedContentColor = Color.White,
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         onClick = {
             if(screen.onClick == null && screen.route != null){

@@ -20,6 +20,7 @@ class HomeScreenViewModel: ViewModel(){
     //var pokemons = mutableStateListOf<Pokemon>()
     val generationsMap = mutableMapOf<Int, String>()
     var userId: Int by mutableStateOf(0)
+    var filtrar: Boolean by mutableStateOf(true)
 
     private var _pokemons = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemons: StateFlow<List<Pokemon>> get() = _pokemons

@@ -118,6 +118,7 @@ class PrActivity : ComponentActivity() {
          }
  */
     override fun onCreate(savedInstanceState: Bundle?) {
+        val intent_to_mainactivity = Intent(this, MainActivity::class.java)
         val intent = intent
         var param1 = 5
         var memberWithId1 = memberService.memberList.find { it.id == param1 }
@@ -166,7 +167,7 @@ class PrActivity : ComponentActivity() {
                                 Column() {
                                     IconButton(
                                         onClick = {
-                                            navController.navigate("home")
+                                            navController.navigate("home?user_id=${param1}")
                                         }
                                     ) {
                                         Icon(
@@ -361,14 +362,15 @@ class PrActivity : ComponentActivity() {
                             ) {
                                 ButtonWithIcon2(
                                     text = "Cerrar Sesión",
-                                    onClick = { /* Tu función de clic aquí */ })
+                                    onClick = { startActivity(intent_to_mainactivity)})
 
                             }
                         }
 
 
                     }}
-                        composable(route = "home") {
+                        //home
+                        composable(route = "home?user_id${param1}") {
                         Log.d("HOME", "home screen")
                         HomeScreen(navController, homeScrennViewModel)
                         }

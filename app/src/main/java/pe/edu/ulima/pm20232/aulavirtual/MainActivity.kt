@@ -95,18 +95,18 @@ class MainActivity : ComponentActivity() {
                         topBar = {
                             if(currentRoute !in listOf("reset_passwords", "login","register","profile")) {
                                 val screens: List<TopBarScreen> = listOf(
-                                    TopBarScreen(
+                                    /*TopBarScreen(
                                         route = "home",
                                         title = "Home",
-                                    ),
+                                    ),*/
                                     TopBarScreen(
                                         route = "ver_perfil",
-                                        title = "Ver Perfíl",
+                                        title = "Ver Perfil",
                                     ),
-                                    TopBarScreen(
+                                    /*TopBarScreen(
                                         route = "pokemon",
                                         title = "Ver Pokemones",
-                                    ),
+                                    ),*/
                                     TopBarScreen(
                                         title = "Acerca de",
                                         onClick = {
@@ -132,12 +132,18 @@ class MainActivity : ComponentActivity() {
                                     BottomBarScreen(
                                         route = "home",
                                         title = "Mi Rutina",
-                                        icon = Icons.Default.DateRange
+                                        icon = Icons.Default.DateRange,
+                                        onClick = {
+                                            homeScrennViewModel.filtrar = true
+                                        }
                                     ),
                                     BottomBarScreen(
                                         route = "profile",
                                         title = "Ejercicios",
-                                        icon = Icons.Default.List
+                                        icon = Icons.Default.List,
+                                        onClick = {
+                                            homeScrennViewModel.filtrar = false
+                                        }
                                     ),
                                     BottomBarScreen(
                                         title = "Compartir",
@@ -287,7 +293,7 @@ class MainActivity : ComponentActivity() {
                                     userId = entry.arguments?.getInt("user_id")!!
                                     //pokemonDetailScrennViewModel.pokemonId = userId
                                     homeScrennViewModel.userId = userId
-                                    HomeScreen(navController, homeScrennViewModel)
+                                    HomeScreen(navController, homeScrennViewModel, true)
                                     //PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
                                 })
                                 /*composable(route = "pokemon") {

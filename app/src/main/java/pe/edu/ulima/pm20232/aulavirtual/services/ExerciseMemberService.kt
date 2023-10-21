@@ -431,5 +431,14 @@ class ExerciseMemberService {
 
         return uniqueBodyPartIds.size
     }
+    fun findMembersbyExerciseid(exerciseId: Int): List<Int>{
+        val members = mutableListOf<Int>()
+        for(exerciseMember in exerciseMemberList){
+            if(exerciseMember.exerciseId == exerciseId && !members.contains(exerciseMember.memberId)){
+                members.add(exerciseMember.memberId)
+            }
+        }
+        return members
+    }
 
 }
