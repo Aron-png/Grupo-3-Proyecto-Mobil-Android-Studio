@@ -267,17 +267,16 @@ class MainActivity : ComponentActivity() {
                             }
 
                             NavHost(navController, startDestination = "login") {
-                                //pantalla con el logo de la Ulima
+                                //pantalla de carga con el logo de la Ulima
                                 composable(route = "splash") {
                                     SplashScreen {
                                         navController.navigate("login")
                                     }
                                 }
-
-                                composable(route = "home") {
+                                /*composable(route = "home") {
                                     Log.d("HOME", "home screen")
                                     HomeScreen(navController, homeScrennViewModel)
-                                }
+                                }*/
                                 //pantalla que muestra los ejercicios del usuario
                                 composable(route = "home?user_id={user_id}", arguments = listOf(
                                     navArgument("user_id") {
@@ -291,22 +290,25 @@ class MainActivity : ComponentActivity() {
                                     HomeScreen(navController, homeScrennViewModel)
                                     //PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
                                 })
-                                composable(route = "pokemon") {
+                                /*composable(route = "pokemon") {
                                     Log.d("POKEMON", "pokemons screen")
                                     PokemonScreen(navController)
-                                }
+                                }*/
+                                //cambiar contraseña
                                 composable(route = "reset_passwords") {
                                     Log.d("ROUTER", "reset_passwords")
                                     ResetPasswordScreen(resetPasswordViewModel,navController)
                                 }
+                                //crear cuenta
                                 composable(route = "register") {
                                     RegisterScreen(registerViewModel, navController)
                                 }
-                                composable(route = "profile") {
+                                //pantalla Perfil pokémon
+                                /*composable(route = "profile") {
                                     Log.d("ROUTER", "profile")
                                     ProfileScreen(navController, profileScrennViewModel)
-                                }
-                                composable(route = "pokemon/edit?pokemon_id={pokemon_id}", arguments = listOf(
+                                }*/
+                                /*composable(route = "pokemon/edit?pokemon_id={pokemon_id}", arguments = listOf(
                                     navArgument("pokemon_id") {
                                         type = NavType.IntType
                                         defaultValue = 0
@@ -315,7 +317,8 @@ class MainActivity : ComponentActivity() {
                                     val pokemonId = entry.arguments?.getInt("pokemon_id")!!
                                     pokemonDetailScrennViewModel.pokemonId = pokemonId
                                     PokemonDetailScreen(navController, pokemonDetailScrennViewModel)
-                                })
+                                })*/
+                                //login
                                 composable(route = "login") {
                                     Log.d("ROUTER", "login")
                                     LoginScreen(loginScrennViewModel, navController)
